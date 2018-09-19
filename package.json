@@ -1,0 +1,14 @@
+{
+  "name": "ctrlv",
+  "version": "1.0.0",
+  "description": "Your cloud clipboard",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lucas Czekaj",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
