@@ -1,7 +1,7 @@
 const request = require('supertest')
 const expect = require('expect')
 
-const { app, welcomeMessage } = require('../server')
+const { app, welcomeMessage, reservedUrls } = require('../server')
 
 describe('GET /', () => {
   it('should display welcome message', (done) => {
@@ -29,5 +29,15 @@ describe('GET /favicon.ico', () => {
       .get('/favicon.ico')
       .expect(404)
       .end(done)
+  })
+})
+reservedUrls.forEach((url) => {
+  describe(`GET /${url}`, () => {
+    it('should not create or retrieve any clips', (done) => {
+      request(app)
+        .get(`/${url}`)
+        .expect(404)
+        .end(done)
+    })
   })
 })

@@ -6,6 +6,8 @@ const { Clip } = require('./models/clip')
 
 const app = express()
 const welcomeMessage = 'Hello, Ctrl-V!'
+const reservedUrls = ['admin', 'about', 'help', 'privacy']
+
 app.get('/', (req, res) => {
   res.status(200).send(welcomeMessage)
 })
@@ -31,4 +33,4 @@ app.listen(port, () => {
   console.log(`Started server on port ${port}`)
 })
 
-module.exports = { app, welcomeMessage }
+module.exports = { app, welcomeMessage, reservedUrls }
