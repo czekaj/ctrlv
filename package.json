@@ -16,7 +16,7 @@
   "dependencies": {
     "express": "^4.16.3",
     "mongodb": "^3.1.6",
-    "mongoose": "^5.2.15"
+    "mongoose": "^5.2.16"
   },
   "devDependencies": {
     "expect": "^23.6.0",
@@ -26,6 +26,9 @@
     "supertest": "^3.3.0"
   },
   "standard": {
-    "globals": [ "describe", "it" ]
+    "globals": [
+      "describe",
+      "it"
+    ]
   }
 }
