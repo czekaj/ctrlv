@@ -1,5 +1,8 @@
 const request = require('supertest')
-const expect = require('expect')
+// require('jest')
+const chai = require('chai')
+chai.use(require('chai-date-string'))
+const expect = chai.expect
 
 const { app, welcomeMessage, reservedUrls } = require('../server')
 
@@ -15,12 +18,17 @@ let randomClip = Math.random().toString(36).substring(7) // generates random str
 describe(`GET /${randomClip}`, () => {
   it('should create new clip', (done) => {
     request(app)
-      .get(`/${randomClip}`)
-      .expect(200)
-      .expect((res) => {
-        expect(res.body.clip.text).toBe('')
+      .get(`/${randomClip}`).then((res) => {
+        expect(res.status).to.equal(200)
+        expect(res.body.clip.createdAt).to.be.a.dateString()
+        done()
+      }, (err) => {
+        console.error(err)
+        done(err)
+      }).catch((e) => {
+        console.error(e)
+        done(e)
       })
-      .end(done)
   })
 })
 describe('GET /favicon.ico', () => {

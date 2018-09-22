@@ -4,11 +4,11 @@ var Clip = mongoose.model('Clip', {
   url: {
     type: String, // e.g. abc34xz
     required: true,
-    minlength: 7 // about 78 billion possibilities
+    minlength: 3
   },
   text: {
     type: String,
-    required: true,
+    required: false,
     minlength: 1
   },
   createdAt: {

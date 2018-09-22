@@ -1,10 +1,12 @@
 require('./config')
 
 const express = require('express')
+// const bodyParser = require('body-parser')
 require('./db/mongoose')
 const { Clip } = require('./models/clip')
 
 const app = express()
+// app.use(bodyParser.json())
 const welcomeMessage = 'Hello, Ctrl-V!'
 const reservedUrls = ['admin', 'about', 'help', 'privacy']
 
@@ -13,19 +15,31 @@ app.get('/', (req, res) => {
 })
 // handling creation and retrieval/deletion of a clip
 app.get('/:clipUrl', (req, res) => {
-  const clipUrl = req.params.clipUrl
+  const clipUrl = req.params.clipUrl.toLowerCase()
   console.log(`GET /${clipUrl} starting`)
-  // TODO: add logic to filter out admin pages
-  Clip.findOne({ url: clipUrl }).then((clip) => {
-    if (!clip) {
+  if (reservedUrls.indexOf(clipUrl) > -1 || !clipUrl.match(/^\w+$/)) {
+    return res.status(404).send('404 Not a clip url')
+  }
+  Clip.findOne({ url: clipUrl }).then((foundClip) => {
+    if (!foundClip) {
       console.log(`Clip ${clipUrl} not found. Creating.`)
+      var newClip = new Clip({
+        url: clipUrl,
+        createdAt: new Date()
+      })
+      newClip.save().then((createdClip) => {
+        return res.send({ 'clip': createdClip })
+      }, (err) => {
+        console.error(err.message)
+        return res.status(400).send('400 ' + err)
+      })
     } else {
-      console.log(`Clip ${clipUrl} found.\n${clip}`)
+      console.log(`Clip ${clipUrl} found.\n${foundClip}`)
+      return res.send({ 'clip': foundClip })
     }
-    res.send('GET complete')
-  }).catch((e) => {
-    console.error(e)
-    return res.status(400).send(e.message)
+  }, (err) => {
+    console.error(err)
+    return res.status(400).send('400 ' + err.message)
   })
 })
 const port = 3000
