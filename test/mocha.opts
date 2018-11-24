@@ -1,0 +1,2 @@
+--ui bdd
+--env NODE_ENV=test

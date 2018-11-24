@@ -4,8 +4,9 @@
   "description": "Your cloud clipboard",
   "main": "index.js",
   "scripts": {
+    "nyc": "nyc report",
     "start": "node server/server.js",
-    "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha server/**/*.test.js",
+    "test": "nyc mocha server/**/*.test.js",
     "test-watch": "nodemon --exec npm test"
   },
   "engines": {
@@ -17,13 +18,15 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "mongodb": "^3.1.6",
-    "mongoose": "^5.2.16"
+    "mongoose": "^5.2.16",
+    "npm": "^6.4.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-date-string": "^0.1.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.4",
+    "nyc": "^13.0.1",
     "standard": "^12.0.1",
     "supertest": "^3.3.0"
   },
@@ -33,5 +36,23 @@
       "it",
       "beforeEach"
     ]
+  },
+  "nyc": {
+    "extension": [
+      ".js"
+    ],
+    "include": [
+      "server/**/*.js"
+    ],
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "all": true,
+    "check-coverage": true,
+    "statements": 90,
+    "functions": 90,
+    "branches": 90,
+    "lines": 90
   }
 }
