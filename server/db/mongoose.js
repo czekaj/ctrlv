@@ -5,10 +5,9 @@ mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true
 }).then(() => {
   console.log(`Connected to ${process.env.MONGODB_URI}`)
-}).catch((e) => {
-  return console.error(e.message)
+}, (err) => {
+  return console.error(err.message)
 })
-
 module.exports = {
   mongoose
 }

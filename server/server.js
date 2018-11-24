@@ -30,8 +30,8 @@ app.get('/:clipUrl', (req, res) => {
       newClip.save().then((createdClip) => {
         return res.send({ 'clip': createdClip })
       }, (err) => {
-        console.error(err.message)
-        return res.status(400).send('400 ' + err)
+        console.error(err)
+        return res.status(400).send('400 ' + err.message)
       })
     } else {
       console.log(`Clip ${clipUrl} found.\n${foundClip}`)
