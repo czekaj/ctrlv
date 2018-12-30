@@ -43,8 +43,8 @@ app.get('/:clipUrl', (req, res) => {
   })
 })
 const port = 3000
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Started server on port ${port}`)
 })
 
-module.exports = { app, welcomeMessage, reservedUrls }
+module.exports = { app, welcomeMessage, reservedUrls, server }

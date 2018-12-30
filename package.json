@@ -6,7 +6,7 @@
   "scripts": {
     "nyc": "nyc report",
     "start": "node server/server.js",
-    "test": "nyc mocha server/**/*.test.js",
+    "test": "nyc mocha",
     "test-watch": "nodemon --exec npm test"
   },
   "engines": {
@@ -34,15 +34,13 @@
     "globals": [
       "describe",
       "it",
-      "beforeEach"
+      "beforeEach",
+      "after"
     ]
   },
   "nyc": {
     "extension": [
       ".js"
-    ],
-    "include": [
-      "server/**/*.js"
     ],
     "reporter": [
       "text",

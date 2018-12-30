@@ -1,11 +1,12 @@
+process.env.NODE_ENV = 'test'
 const request = require('supertest')
 // require('jest')
 const chai = require('chai')
 chai.use(require('chai-date-string'))
 const expect = chai.expect
 
-const { app, welcomeMessage, reservedUrls } = require('../server')
-const { Clip } = require('../models/clip')
+const { app, welcomeMessage, reservedUrls, server } = require('./../../server/server')
+const { Clip } = require('../../server/models/clip')
 
 const sampleClips = [{
   url: 'first',
@@ -28,6 +29,11 @@ beforeEach((done) => {
   }).then(() => done(), (e) => { console.error(e) })
 })
 
+after((done) => {
+  Clip.prototype.db.close(done) // close the mongo connection
+  server.close() // shutdown the express server
+})
+
 describe('GET /', () => {
   it('should display welcome message', (done) => {
     request(app)
@@ -37,7 +43,7 @@ describe('GET /', () => {
   })
 })
 let randomClip = Math.random().toString(36).substring(7) // generates random string, e.g. 'q5ns2'
-describe(`GET /${randomClip}`, () => {
+describe('GET /[random clip]}', () => {
   it('should create new clip', (done) => {
     request(app)
       .get(`/${randomClip}`).then((res) => {

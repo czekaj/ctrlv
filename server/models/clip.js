@@ -1,4 +1,4 @@
-var mongoose = require('mongoose')
+const mongoose = require('mongoose')
 
 var Clip = mongoose.model('Clip', {
   url: {
