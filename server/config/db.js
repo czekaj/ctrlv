@@ -18,8 +18,8 @@ if (process.env.NODE_ENV === 'test') {
   mongoose.Promise = global.Promise
   mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true
-  }).then(async () => {
-    console.log('Connected to', await mongoose.getConnectionString())
+  }).then(() => {
+    console.log('Connected to', mongoose.connection.client.s.url)
   }, (err) => {
     return console.error(err.message)
   })
