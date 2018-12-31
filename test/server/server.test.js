@@ -1,12 +1,10 @@
 process.env.NODE_ENV = 'test'
+const { app, welcomeMessage, reservedUrls, server, db } = require('./../../server/server')
+const { Clip } = require('../../server/models/clip')
 const request = require('supertest')
-// require('jest')
 const chai = require('chai')
 chai.use(require('chai-date-string'))
 const expect = chai.expect
-
-const { app, welcomeMessage, reservedUrls, server } = require('./../../server/server')
-const { Clip } = require('../../server/models/clip')
 
 const sampleClips = [{
   url: 'first',
@@ -23,15 +21,20 @@ const sampleClips = [{
 }
 ]
 
+// before((done) => {
+// })
+
+after((done) => {
+  db.mongoose.connection.close()
+  db.mongoServer.stop()
+  server.close() // shutdown the express server
+  done()
+})
+
 beforeEach((done) => {
   Clip.deleteMany({}).then(() => {
     return Clip.insertMany(sampleClips)
   }).then(() => done(), (e) => { console.error(e) })
-})
-
-after((done) => {
-  Clip.prototype.db.close(done) // close the mongo connection
-  server.close() // shutdown the express server
 })
 
 describe('GET /', () => {
