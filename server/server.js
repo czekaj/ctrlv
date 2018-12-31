@@ -1,12 +1,12 @@
-require('./config/env')
+const { env } = require('./config/env')
 const express = require('express')
 const db = require('./config/db')
 const { Clip } = require('./models/clip')
 
 const app = express()
-if (process.env.NODE_ENV === 'dev') {
+if (env === 'dev') {
   var morgan = require('morgan')
-  app.use(morgan('combined'))
+  app.use(morgan('dev'))
 }
 
 // app.use(bodyParser.json())
@@ -49,4 +49,4 @@ const server = app.listen(port, () => {
   console.log(`Started server on port ${port}`)
 })
 
-module.exports = { app, welcomeMessage, reservedUrls, server, db }
+module.exports = { app, welcomeMessage, reservedUrls, server, db, env }
