@@ -1,5 +1,6 @@
 {
   "standard": {
+    "parser": "babel-eslint",
     "globals": [
       "describe",
       "it",
