@@ -45,23 +45,6 @@ describe('GET /', () => {
       .end(done)
   })
 })
-let randomClip = Math.random().toString(36).substring(7) // generates random string, e.g. 'q5ns2'
-describe('GET /api/[random clip]}', () => {
-  it('should create new clip', (done) => {
-    request(app)
-      .get(`/api/${randomClip}`).then((res) => {
-        expect(res.status).to.equal(200)
-        expect(res.body.clip.createdAt).to.be.a.dateString()
-        done()
-      }, (err) => {
-        console.error(err)
-        done(err)
-      }).catch((e) => {
-        console.error(e)
-        done(e)
-      })
-  })
-})
 describe('GET /favicon.ico', () => {
   it('should not create or retrieve any clips', (done) => {
     request(app)
@@ -97,5 +80,44 @@ reservedUrls.forEach((url) => {
         .expect(404)
         .end(done)
     })
+  })
+})
+let randomClip = Math.random().toString(36).substring(7) // generates random string, e.g. 'q5ns2'
+describe('GET /api/[random clip]}', () => {
+  it('should indicate a clip does not exist yet', (done) => {
+    request(app)
+      .get(`/api/${randomClip}`).then((res) => {
+        expect(res.status).to.equal(204) // 204 No Content
+        expect(res.body).to.be.empty
+        done()
+      }, (err) => {
+        console.error(err)
+        done(err)
+      }).catch((e) => {
+        console.error(e)
+        done(e)
+      })
+  })
+})
+describe('POST /api/[random clip]}', () => {
+  it('should save a new clip', (done) => {
+    request(app)
+      .post(`/api/${randomClip}`)
+      .type('form')
+      .send({
+        text: `Hello ${randomClip}`
+      }).then((res) => {
+        console.log(res.body.clip)
+        expect(res.status).to.equal(201)
+        expect(res.body.clip.key).to.be.equal(randomClip)
+        expect(res.body.clip.text).to.be.equal(`Hello ${randomClip}`)
+        done()
+      }, (err) => {
+        console.error(err)
+        done(err)
+      }).catch((e) => {
+        console.error(e)
+        done(e)
+      })
   })
 })

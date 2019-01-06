@@ -1,4 +1,5 @@
 var mongoose = require('mongoose')
+mongoose.set('debug', true)
 const { MongoMemoryServer } = require('mongodb-memory-server')
 
 let mongoServer

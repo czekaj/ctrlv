@@ -4,6 +4,8 @@ var Clip = mongoose.model('Clip', {
   key: {
     type: String, // e.g. abc34xz
     required: true,
+    unique: true,
+    dropDups: true,
     minlength: 3
   },
   text: {

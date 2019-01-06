@@ -7,7 +7,7 @@
     "nyc": "nyc report",
     "start": "node server.js",
     "start-watch": "nodemon server.js",
-    "test": "nyc mocha",
+    "test": "mocha",
     "test-watch": "nodemon --exec npm test",
     "dev": "concurrently \"yarn run start-watch\" \"cd ../client && yarn start\""
   },
@@ -24,6 +24,7 @@
     "chai": "^4.2.0",
     "chai-date-string": "^0.1.0",
     "concurrently": "^4.1.0",
+    "eslint-plugin-chai-friendly": "^0.4.1",
     "mocha": "^5.2.0",
     "mongodb-memory-server": "^2.9.1",
     "morgan": "^1.9.1",

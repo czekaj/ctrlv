@@ -1,0 +1,30 @@
+{
+  "extends": "standard",
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "sourceType": "module",
+    "ecmaFeatures": {
+        "jsx": true
+    }    
+  },
+  "env": {
+    "es6": true,
+    "mocha": true
+  },
+  "overrides": [
+    {
+        "files": "*.test.js",
+        "rules": {
+            "no-unused-expressions": "off"
+        }
+    }
+  ],
+  "parser": "babel-eslint",
+  "globals": {
+    "describe": true,
+    "it": true,
+    "beforeEach": true,
+    "before": true,
+    "after": true
+  }
+}
