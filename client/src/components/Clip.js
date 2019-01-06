@@ -33,6 +33,9 @@ export default class Clip extends Component {
               placeholder='Your clip text here'
               value={clip.text}
             />
+            <p className='small'>
+              {clip.createdAt && <span>created at: {clip.createdAt.toString()}</span>}
+            </p>
             <div>
               {!clip._id && <button className='btn btn-primary'>Create clip</button>}
               {clip._id && <button className='btn btn-dark'>Copy to clipboard</button>}
@@ -40,9 +43,6 @@ export default class Clip extends Component {
             </div>
           </div>
         </form>
-        <p>
-          {clip.createdAt && <span>created at: {clip.createdAt.toString()}</span>}
-        </p>
       </div>
     )
   }
