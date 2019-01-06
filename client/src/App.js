@@ -66,7 +66,7 @@ class App extends Component {
     return (
       <div>
         <Header />
-        {!this.state.clip && <p>Please navigate to an arbitrary url to create your clip (e.g. /abcdef)</p>}
+        {!this.state.clip && <div className='alert alert-primary' role='alert'>Please navigate to an arbitrary url to create your clip (e.g. /abcdef)</div>}
         {this.state.clip && <Clip clip={this.state.clip} handleClipSave={this.handleClipSave} />}
       </div>
     )

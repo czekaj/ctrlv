@@ -16,17 +16,32 @@ export default class Clip extends Component {
     this.setState({ text: event.target.value })
   }
   render () {
+    const clip = this.props.clip
     return (
       <div className='clip'>
-        <p>{!this.props.clip._id ? 'Creating new clip' : 'Showing existing clip saved'} at /{this.props.clip.key}</p>
+        <h5>
+          {!clip._id && <span className='badge badge-success clip__badge'>NEW CLIP</span>}
+          {clip._id && <span className='badge badge-warning clip__badge'>EXISTING CLIP</span>}
+           /{this.props.clip.key}
+        </h5>
+        <form onSubmit={this.handleClipSave}>
+          <div className='form-group'>
+            <textarea
+              id='clipText'
+              className='form-control form-control-lg clip__textarea'
+              onChange={this.handleChange}
+              placeholder='Your clip text here'
+              value={clip.text}
+            />
+            <div>
+              {!clip._id && <button className='btn btn-primary'>Create clip</button>}
+              {clip._id && <button className='btn btn-dark'>Copy to clipboard</button>}
+              {clip._id && <button className='btn btn-danger'>Delete clip</button>}
+            </div>
+          </div>
+        </form>
         <p>
-          <form onSubmit={this.handleClipSave}>
-            <textarea className='clip__textarea' value={this.props.clip.text} onChange={this.handleChange} />
-            <button>Save</button>
-          </form>
-        </p>
-        <p>
-          {this.props.clip.createdAt && <p>created at: {this.props.clip.createdAt.toString()}</p>}
+          {clip.createdAt && <span>created at: {clip.createdAt.toString()}</span>}
         </p>
       </div>
     )

@@ -1,16 +1,7 @@
-html {
-  font-size: 62.5%;
-}
-
-body {
-  background-color: $dark-red;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: $m-size;
-  color: white;
-}
 
 button {
   cursor: pointer;
+  margin: 0 $s-size 0 0;
 }
 
 button:disabled {
