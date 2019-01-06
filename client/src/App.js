@@ -21,8 +21,7 @@ class App extends Component {
               }
             })
           }
-        }
-        else if (res.status === 204) {
+        } else if (res.status === 204) {
           this.setState(() => {
             return {
               clip: {
@@ -38,6 +37,23 @@ class App extends Component {
       })
   }
 
+  handleClipSave = (text) => {
+    const clipToSave = this.state.clip
+    if (clipToSave && clipToSave.key && !clipToSave._id) { // new clip, never saved to the db
+      clipToSave.text = text
+      console.log('clipToSave', clipToSave)
+      axios.post(`/api/${clipToSave.key}`, clipToSave).then((res) => {
+        console.log('Saved new clip', res.data)
+        this.setState(() => {
+          return ({
+            clip: res.data.clip
+          })
+        })
+      }).catch((err) => {
+        console.log('Can\'t save new clip', err)
+      })
+    }
+  }
   componentDidMount () {
     const key = this.props.location.pathname.substr(1)
     if (!key) return
@@ -49,7 +65,7 @@ class App extends Component {
       <div>
         <h1>Hello CtrlV!!!</h1>
         <p>You are on {this.state.location}</p>
-        {this.state.clip && <Clip clip={this.state.clip} />}
+        {this.state.clip && <Clip clip={this.state.clip} handleClipSave={this.handleClipSave} />}
       </div>
     )
   }

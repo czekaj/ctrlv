@@ -40,7 +40,7 @@ app.get('/api/:clipUrl', (req, res) => {
 })
 app.post('/api/:clipUrl', (req, res) => {
   const clipUrl = req.params.clipUrl.toLowerCase()
-  console.log(`Creating clip "${clipUrl}"...`)
+  console.log(`Creating clip "${clipUrl}"...`, req.body)
   var newClip = new Clip({
     key: clipUrl,
     text: req.body.text,
