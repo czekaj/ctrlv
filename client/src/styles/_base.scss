@@ -1,0 +1,24 @@
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: $dark-red;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: $m-size;
+  color: white;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+#root {
+  max-width: 100rem;
+  margin: $m-size auto;
+  padding: 0 $m-size;
+}

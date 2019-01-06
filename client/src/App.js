@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import Clip from './components/Clip'
+import Header from './components/Header'
+import './App.scss'
 
 class App extends Component {
   state = {
@@ -63,8 +65,8 @@ class App extends Component {
   render () {
     return (
       <div>
-        <h1>Hello CtrlV!!!</h1>
-        <p>You are on {this.state.location}</p>
+        <Header />
+        {!this.state.clip && <p>Please navigate to an arbitrary url to create your clip (e.g. /abcdef)</p>}
         {this.state.clip && <Clip clip={this.state.clip} handleClipSave={this.handleClipSave} />}
       </div>
     )

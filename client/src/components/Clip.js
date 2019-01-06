@@ -17,13 +17,17 @@ export default class Clip extends Component {
   }
   render () {
     return (
-      <div>
-        <h3>{!this.props.clip._id ? 'Creating new clip' : 'Your saved clip'}</h3>
-        <form onSubmit={this.handleClipSave}>
-          <textarea value={this.props.clip.text} onChange={this.handleChange} />
-          <button>Save</button>
+      <div className='clip'>
+        <p>{!this.props.clip._id ? 'Creating new clip' : 'Showing existing clip saved'} at /{this.props.clip.key}</p>
+        <p>
+          <form onSubmit={this.handleClipSave}>
+            <textarea className='clip__textarea' value={this.props.clip.text} onChange={this.handleChange} />
+            <button>Save</button>
+          </form>
+        </p>
+        <p>
           {this.props.clip.createdAt && <p>created at: {this.props.clip.createdAt.toString()}</p>}
-        </form>
+        </p>
       </div>
     )
   }
