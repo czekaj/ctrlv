@@ -1,11 +1,20 @@
 import React, { Component } from 'react'
+import Clip from './components/Clip'
 
-class App extends Component {
+export default class App extends Component {
+  state = {
+    clip: {
+      url: 'first',
+      text: 'This is my saved message.',
+      createdOn: new Date()
+    }
+  }
   render () {
     return (
-      <h1>Hello CtrlV!</h1>
+      <div>
+        <h1>Hello CtrlV!!!</h1>
+        {this.state.clip && <Clip clip={this.state.clip} />}
+      </div>
     )
   }
 }
-
-export default App
