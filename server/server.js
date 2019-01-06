@@ -17,16 +17,16 @@ app.get('/', (req, res) => {
   res.status(200).send(welcomeMessage)
 })
 // handling creation and retrieval/deletion of a clip
-app.get('/:clipUrl', (req, res) => {
+app.get('/api/:clipUrl', (req, res) => {
   const clipUrl = req.params.clipUrl.toLowerCase()
   if (reservedUrls.indexOf(clipUrl) > -1 || !clipUrl.match(/^\w+$/)) {
     return res.status(404).send('404 Not a clip url')
   }
-  Clip.findOne({ url: clipUrl }).then((foundClip) => {
+  Clip.findOne({ key: clipUrl }).then((foundClip) => {
     if (!foundClip) {
       console.log(`Clip ${clipUrl} not found. Creating.`)
       var newClip = new Clip({
-        url: clipUrl,
+        key: clipUrl,
         createdAt: new Date()
       })
       newClip.save().then((createdClip) => {

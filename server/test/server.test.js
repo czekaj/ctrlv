@@ -7,15 +7,15 @@ chai.use(require('chai-date-string'))
 const expect = chai.expect
 
 const sampleClips = [{
-  url: 'first',
+  key: 'first',
   text: 'This is my saved message.',
   createdAt: new Date()
 }, {
-  url: 'second',
+  key: 'second',
   text: 'Second message',
   createdAt: new Date()
 }, {
-  url: 'fe7kv9s8fds9f10a42da',
+  key: 'fe7kv9s8fds9f10a42da',
   text: 'Random message',
   createdAt: new Date()
 }
@@ -46,10 +46,10 @@ describe('GET /', () => {
   })
 })
 let randomClip = Math.random().toString(36).substring(7) // generates random string, e.g. 'q5ns2'
-describe('GET /[random clip]}', () => {
+describe('GET /api/[random clip]}', () => {
   it('should create new clip', (done) => {
     request(app)
-      .get(`/${randomClip}`).then((res) => {
+      .get(`/api/${randomClip}`).then((res) => {
         expect(res.status).to.equal(200)
         expect(res.body.clip.createdAt).to.be.a.dateString()
         done()
@@ -71,10 +71,10 @@ describe('GET /favicon.ico', () => {
   })
 })
 sampleClips.forEach((sampleClip) => {
-  describe(`GET /${sampleClip.url}`, () => {
+  describe(`GET /api/${sampleClip.key}`, () => {
     it('should display an existing clip', (done) => {
       request(app)
-        .get(`/${sampleClip.url}`).then((res) => {
+        .get(`/api/${sampleClip.key}`).then((res) => {
           expect(res.status).to.equal(200)
           expect(res.body.clip.text).to.equal(sampleClip.text)
           expect(res.body.clip.createdAt).to.be.a.dateString()
