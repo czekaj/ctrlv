@@ -12,14 +12,25 @@ class App extends Component {
   fetchClip = (key) => {
     axios.get(`/api/${key}`)
       .then(res => {
-        console.log(res.data.clip)
-        if (res.data && res.data.clip) {
+        if (res.status === 200) {
+          if (res.data && res.data.clip) {
             this.setState(() => {
               return {
                 clip: res.data.clip,
                 location: '/' + key
               }
             })
+          }
+        }
+        else if (res.status === 204) {
+          this.setState(() => {
+            return {
+              clip: {
+                key
+              },
+              location: '/' + key
+            }
+          })
         }
       })
       .catch((reason) => {
