@@ -5,9 +5,12 @@ export default class Clip extends Component {
     return (
       <div>
         <h3>Here's your clip:</h3>
-        <p>url: {this.props.clip.url}</p>
-        <p>text: {this.props.clip.text}</p>
-        <p>created on: {this.props.clip.createdOn.toString()}</p>
+        <form>
+          <p>key: {this.props.clip.key}</p>
+          <textarea value={this.props.clip.text} />
+          <button>Save</button>
+          <p>created on: {this.props.clip.createdOn.toString()}</p>
+        </form>
       </div>
     )
   }

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 var Clip = mongoose.model('Clip', {
-  url: {
+  key: {
     type: String, // e.g. abc34xz
     required: true,
     minlength: 3
