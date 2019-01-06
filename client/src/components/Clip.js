@@ -9,7 +9,7 @@ export default class Clip extends Component {
           <p>key: {this.props.clip.key}</p>
           <textarea value={this.props.clip.text} />
           <button>Save</button>
-          <p>created on: {this.props.clip.createdOn.toString()}</p>
+          <p>created at: {this.props.clip.createdAt.toString()}</p>
         </form>
       </div>
     )

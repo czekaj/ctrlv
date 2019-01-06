@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import axios from 'axios'
 import Clip from './components/Clip'
 
 class App extends Component {
@@ -9,23 +10,28 @@ class App extends Component {
   }
 
   fetchClip = (key) => {
-    return {
-      key: 'first',
-      text: 'This is my saved message.',
-      createdOn: new Date()
-    }
+    axios.get(`/api/${key}`)
+      .then(res => {
+        console.log(res.data.clip)
+        if (res.data && res.data.clip) {
+            this.setState(() => {
+              return {
+                clip: res.data.clip,
+                location: '/' + key
+              }
+            })
+        }
+      })
+      .catch((reason) => {
+        console.error('get call rejected', reason)
+      })
   }
 
   componentDidMount () {
     const key = this.props.location.pathname.substr(1)
-    const clip = this.fetchClip(key)
-
-    this.setState(() => {
-      return {
-        clip,
-        location: '/' + key
-      }
-    })
+    if (!key) return
+    console.log('componentDidMount')
+    this.fetchClip(key)
   }
   render () {
     return (
