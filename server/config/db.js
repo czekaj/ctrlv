@@ -1,10 +1,11 @@
-var mongoose = require('mongoose')
-mongoose.set('debug', true)
+const { env } = require('./env')
+const mongoose = require('mongoose')
+// mongoose.set('debug', true)
 const { MongoMemoryServer } = require('mongodb-memory-server')
 
 let mongoServer
 
-if (process.env.NODE_ENV === 'test') {
+if (env.name === 'test') {
   mongoServer = new MongoMemoryServer()
   mongoServer.getConnectionString().then((mongoUri) => {
     return mongoose.connect(mongoUri, { useNewUrlParser: true }, (err) => {
@@ -17,7 +18,7 @@ if (process.env.NODE_ENV === 'test') {
   })
 } else {
   mongoose.Promise = global.Promise
-  mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/CtrlV', {
+  mongoose.connect(env.mongoUri, {
     useNewUrlParser: true
   }).then(() => {
     console.log('Connected to', mongoose.connection.client.s.url)

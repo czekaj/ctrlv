@@ -49,7 +49,6 @@ app.post('/api/:clipUrl', (req, res) => {
   newClip.save().then((createdClip) => {
     return res.status(201).send({ 'clip': createdClip })
   }, (err) => {
-    console.error(err)
     return res.status(400).send('400 ' + err.message)
   })
 })

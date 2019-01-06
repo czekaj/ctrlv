@@ -21,20 +21,15 @@ const sampleClips = [{
 }
 ]
 
-// before((done) => {
-// })
+before((done) => {
+  Clip.insertMany(sampleClips).then(() => done(), (e) => { console.error(e) })
+})
 
 after((done) => {
   db.mongoose.connection.close()
   db.mongoServer.stop()
   server.close() // shutdown the express server
   done()
-})
-
-beforeEach((done) => {
-  Clip.deleteMany({}).then(() => {
-    return Clip.insertMany(sampleClips)
-  }).then(() => done(), (e) => { console.error(e) })
 })
 
 describe('GET /', () => {
@@ -111,6 +106,23 @@ describe('POST /api/[random clip]}', () => {
         expect(res.status).to.equal(201)
         expect(res.body.clip.key).to.be.equal(randomClip)
         expect(res.body.clip.text).to.be.equal(`Hello ${randomClip}`)
+        done()
+      }, (err) => {
+        console.error(err)
+        done(err)
+      }).catch((e) => {
+        console.error(e)
+        done(e)
+      })
+  })
+  it('should not save the same new clip twice', (done) => {
+    request(app)
+      .post(`/api/${randomClip}`)
+      .type('form')
+      .send({
+        text: `Hello ${randomClip}`
+      }).then((res) => {
+        expect(res.status).to.equal(400)
         done()
       }, (err) => {
         console.error(err)
