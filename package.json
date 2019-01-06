@@ -1,0 +1,11 @@
+{
+  "standard": {
+    "globals": [
+      "describe",
+      "it",
+      "beforeEach",
+      "before",
+      "after"
+    ]
+  }  
+}

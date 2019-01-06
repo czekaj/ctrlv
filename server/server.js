@@ -4,7 +4,7 @@ const db = require('./config/db')
 const { Clip } = require('./models/clip')
 
 const app = express()
-if (env === 'dev') {
+if (env.name === 'dev') {
   var morgan = require('morgan')
   app.use(morgan('dev'))
 }
@@ -44,9 +44,8 @@ app.get('/:clipUrl', (req, res) => {
     return res.status(400).send('400 ' + err.message)
   })
 })
-const port = 3000
-const server = app.listen(port, () => {
-  console.log(`Started server on port ${port}`)
+const server = app.listen(env.port, () => {
+  console.log(`Started server on port ${env.port}`)
 })
 
 module.exports = { app, welcomeMessage, reservedUrls, server, db, env }
