@@ -1,10 +1,12 @@
 const { env } = require('./config/env')
 const express = require('express')
 const bodyParser = require('body-parser')
+const path = require('path')
 const db = require('./config/db')
 const { Clip } = require('./models/clip')
 
 const app = express()
+app.use(express.static(path.join(__dirname, 'client', 'build')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: true
@@ -64,6 +66,9 @@ app.delete('/api/:clipUrl', (req, res) => {
   })
 })
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+})
 const server = app.listen(env.port, () => {
   console.log(`Started server on port ${env.port}`)
 })
