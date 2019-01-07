@@ -1,28 +1,70 @@
 import React, { Component } from 'react'
 
 export default class Clip extends Component {
-  // componentDidMount () {
-  //   this.setState(() => {
-  //     return ({
-  //       clip: this.props.clip
-  //     })
-  //   })
-  // }
+  constructor (props) {
+    super(props)
+    this.state = {
+      clip: props.clip,
+      text: ''
+    }
+  }
+  componentDidMount () {
+    this.setState(() => {
+      return ({
+        text: this.props.clip.text
+      })
+    })
+  }
+  componentDidUpdate (prevProps, prevState) {
+    console.log('prevProps', prevProps)
+    console.log('props', this.props)
+    console.log('prevState', prevState)
+    console.log('state', this.state)
+    if (prevProps.clip !== this.props.clip) {
+      this.setState((prevState) => {
+        return (
+          { clip: this.props.clip,
+            text: this.props.clip.text
+          }
+        )
+      })
+    }
+  }
+  handleClipDelete = (e) => {
+    e.preventDefault()
+    this.props.handleClipDelete(this.state.clip)
+    this.setState(() => {
+      return (
+        { text: '' }
+      )
+    })
+  }
   handleClipSave = (e) => {
     e.preventDefault()
     this.props.handleClipSave(this.state.text)
   }
-  handleChange = (event) => {
-    this.setState({ text: event.target.value })
+  handleCopyToClipboard = (e) => {
+    e.preventDefault()
+    const elementToCopy = document.getElementById('clipText')
+    elementToCopy.select()
+    document.execCommand('copy')
+  }
+  handleChange = (e) => {
+    e.persist()
+    this.setState(() => {
+      return (
+        { text: e.target.value }
+      )
+    })
   }
   render () {
-    const clip = this.props.clip
+    const clip = this.state.clip
     return (
       <div className='clip'>
         <h5>
           {!clip._id && <span className='badge badge-success clip__badge'>NEW CLIP</span>}
           {clip._id && <span className='badge badge-warning clip__badge'>EXISTING CLIP</span>}
-           /{this.props.clip.key}
+           /{clip.key}
         </h5>
         <form onSubmit={this.handleClipSave}>
           <div className='form-group'>
@@ -31,15 +73,15 @@ export default class Clip extends Component {
               className='form-control form-control-lg clip__textarea'
               onChange={this.handleChange}
               placeholder='Your clip text here'
-              value={clip.text}
+              value={this.state.text}
             />
-            <p className='small'>
+            <p className='small float-right'>
               {clip.createdAt && <span>created at: {clip.createdAt.toString()}</span>}
             </p>
             <div>
               {!clip._id && <button className='btn btn-primary'>Create clip</button>}
-              {clip._id && <button className='btn btn-dark'>Copy to clipboard</button>}
-              {clip._id && <button className='btn btn-danger'>Delete clip</button>}
+              {clip._id && <button className='btn btn-dark' onClick={this.handleCopyToClipboard}>Copy to clipboard</button>}
+              {clip._id && <button className='btn btn-danger' onClick={this.handleClipDelete}>Delete clip</button>}
             </div>
           </div>
         </form>

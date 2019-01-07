@@ -132,4 +132,19 @@ describe('POST /api/[random clip]}', () => {
         done(e)
       })
   })
+  it('should delete existing clip', (done) => {
+    request(app)
+      .delete(`/api/${randomClip}`)
+      .type('form')
+      .send().then((res) => {
+        expect(res.status).to.equal(200)
+        done()
+      }, (err) => {
+        console.error(err)
+        done(err)
+      }).catch((e) => {
+        console.error(e)
+        done(e)
+      })
+  })
 })

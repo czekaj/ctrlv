@@ -7,8 +7,7 @@ import './App.scss'
 
 class App extends Component {
   state = {
-    clip: undefined,
-    location: undefined
+    clip: undefined
   }
 
   fetchClip = (key) => {
@@ -18,18 +17,14 @@ class App extends Component {
           if (res.data && res.data.clip) {
             this.setState(() => {
               return {
-                clip: res.data.clip,
-                location: '/' + key
+                clip: res.data.clip
               }
             })
           }
         } else if (res.status === 204) {
           this.setState(() => {
             return {
-              clip: {
-                key
-              },
-              location: '/' + key
+              clip: { key }
             }
           })
         }
@@ -37,6 +32,22 @@ class App extends Component {
       .catch((reason) => {
         console.error('get call rejected', reason)
       })
+  }
+
+  handleClipDelete = (clip) => {
+    axios.delete(`/api/${clip.key}`).then((res) => {
+      console.log('Deleted clip', res.data)
+      this.setState(() => {
+        return ({
+          clip: {
+            key: clip.key
+          }
+        })
+      })
+    }).catch((err) => {
+      console.log('Can\'t delete clip', err)
+      return err
+    })
   }
 
   handleClipSave = (text) => {
@@ -66,8 +77,19 @@ class App extends Component {
     return (
       <div>
         <Header />
-        {!this.state.clip && <div className='alert alert-primary' role='alert'>Please navigate to an arbitrary url to create your clip (e.g. /abcdef)</div>}
-        {this.state.clip && <Clip clip={this.state.clip} handleClipSave={this.handleClipSave} />}
+        {!this.state.clip &&
+          <div
+            className='alert alert-primary'
+            role='alert'>
+              Please navigate to an arbitrary url to create your clip (e.g. /abcdef)
+          </div>
+        }
+        {this.state.clip &&
+          <Clip
+            clip={this.state.clip}
+            handleClipDelete={this.handleClipDelete}
+            handleClipSave={this.handleClipSave}
+          />}
       </div>
     )
   }

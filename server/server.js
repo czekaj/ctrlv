@@ -52,6 +52,18 @@ app.post('/api/:clipUrl', (req, res) => {
     return res.status(400).send('400 ' + err.message)
   })
 })
+app.delete('/api/:clipUrl', (req, res) => {
+  const clipUrl = req.params.clipUrl.toLowerCase()
+  console.log(`Deleting clip "${clipUrl}"...`, req.body)
+  Clip.deleteOne({
+    key: clipUrl
+  }).then(() => {
+    return res.status(200).send(`Deleted clip ${clipUrl}`)
+  }, (err) => {
+    return res.status(400).send('400 ' + err.message)
+  })
+})
+
 const server = app.listen(env.port, () => {
   console.log(`Started server on port ${env.port}`)
 })
