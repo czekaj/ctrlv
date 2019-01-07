@@ -2,7 +2,12 @@ const { env } = require('./config/env')
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
-const db = require('./config/db')
+let db
+if (env.name === 'test') {
+  db = require('./config/db.for.test')
+} else {
+  db = require('./config/db')
+}
 const { Clip } = require('./models/clip')
 
 const app = express()

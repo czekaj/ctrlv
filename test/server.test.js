@@ -1,6 +1,6 @@
 process.env.NODE_ENV = 'test'
-const { app, welcomeMessage, reservedUrls, server, db } = require('./../../server/server')
-const { Clip } = require('../../server/models/clip')
+const { app, welcomeMessage, reservedUrls, server, db } = require('../server')
+const { Clip } = require('../models/clip')
 const request = require('supertest')
 const chai = require('chai')
 chai.use(require('chai-date-string'))
