@@ -16,10 +16,6 @@ export default class Clip extends Component {
     })
   }
   componentDidUpdate (prevProps, prevState) {
-    console.log('prevProps', prevProps)
-    console.log('props', this.props)
-    console.log('prevState', prevState)
-    console.log('state', this.state)
     if (prevProps.clip !== this.props.clip) {
       this.setState((prevState) => {
         return (
