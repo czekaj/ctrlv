@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import Clip from './components/Clip'
 import Header from './components/Header'
-import './App.scss'
+import './App.sass'
 
 class App extends Component {
   state = {
