@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import Typed from 'typed.js'
 
 class Welcome extends Component {
@@ -16,8 +17,10 @@ class Welcome extends Component {
     this.typed.destroy()
   }
 
-  handleOnClick () {
+  handleOnClick = () => {
     const newClipKey = document.getElementById('new-clip-key').value
+    this.props.history.push('/' + newClipKey)
+    window.location.reload()
   }
 
   render () {
@@ -38,4 +41,4 @@ class Welcome extends Component {
   }
 }
 
-export default Welcome
+export default withRouter(Welcome)
