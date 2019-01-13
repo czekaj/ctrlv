@@ -8,7 +8,7 @@ export default class Clip extends Component {
     this.state = {
       clip: {}
     }
-    this.fetchClip(this.props.clipKey)
+    this.fetchClip(props.match.params.clipKey)
   }
   componentDidMount () {
     this.textarea.focus()
