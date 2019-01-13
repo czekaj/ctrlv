@@ -23,7 +23,7 @@ class Welcome extends Component {
   render () {
     return (
       <div className='container welcome'>
-        <h5>Pick an url</h5>
+        <div className='lead'>Pick an url</div>
         <div className='input-group input-group-lg welcome__input-group--xl'>
           <div className='input-group-prepend'>
             <span className='input-group-text' id='new-clip-site'>https://ctrlv.app/</span>
