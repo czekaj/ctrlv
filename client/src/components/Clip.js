@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import TextareaAutosize from 'react-autosize-textarea';
+import TextArea from 'react-textarea-autosize'
 import axios from 'axios'
 
 export default class Clip extends Component {
@@ -9,6 +9,9 @@ export default class Clip extends Component {
       clip: {}
     }
     this.fetchClip(this.props.clipKey)
+  }
+  componentDidMount () {
+    this.textarea.focus()
   }
   handleClipDelete = (e) => {
     e.preventDefault()
@@ -95,9 +98,10 @@ export default class Clip extends Component {
         </h5>
         <form onSubmit={this.handleClipSave}>
           <div className='form-group'>
-            <TextareaAutosize
+            <TextArea
               id='clipText'
-              rows={2}
+              minRows={2}
+              inputRef={tag => (this.textarea = tag)}
               className='form-control form-control-lg clip__textarea'
               onChange={this.handleChange}
               placeholder='Your clip text here'
