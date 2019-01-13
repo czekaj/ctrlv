@@ -11,6 +11,7 @@ export default class Clip extends Component {
     this.fetchClip(props.match.params.clipKey)
   }
   componentDidMount () {
+    document.title = 'ctrlv.app/' + this.props.match.params.clipKey
     this.textarea.focus()
   }
   handleClipDelete = (e) => {

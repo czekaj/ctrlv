@@ -11,6 +11,7 @@ class Welcome extends Component {
       backSpeed: 50
     }
     this.typed = new Typed(this.el, options)
+    document.title = 'ctrlv.app'
   }
 
   componentWillUnmount () {
