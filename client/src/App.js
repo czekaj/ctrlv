@@ -3,6 +3,7 @@ import { withRouter, Route } from 'react-router-dom'
 import Clip from './components/Clip'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import Welcome from './components/Welcome'
 import About from './components/About'
 import Help from './components/Help'
 import Privacy from './components/Privacy'
@@ -38,13 +39,7 @@ class App extends Component {
           return <Route path={'/' + comp} key={comp} component={this.staticComponents[comp]} />
         })
         }
-        {!this.state.clipKey &&
-          <div
-            className='alert alert-primary'
-            role='alert'>
-              Please navigate to an arbitrary url to create your clip (e.g. /abcdef)
-          </div>
-        }
+        {!this.state.clipKey && <Welcome />}
         {!this.state.staticPage && this.state.clipKey &&
           <Clip
             clipKey={this.state.clipKey}
