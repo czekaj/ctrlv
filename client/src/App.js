@@ -1,95 +1,57 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import axios from 'axios'
+import { withRouter, Route } from 'react-router-dom'
 import Clip from './components/Clip'
 import Header from './components/Header'
+import Footer from './components/Footer'
+import About from './components/About'
+import Help from './components/Help'
+import Privacy from './components/Privacy'
 import './App.sass'
 
 class App extends Component {
   state = {
-    clip: undefined
+    clipKey: undefined,
+    staticPage: true
   }
 
-  fetchClip = (key) => {
-    axios.get(`/api/${key}`)
-      .then(res => {
-        if (res.status === 200) {
-          if (res.data && res.data.clip) {
-            this.setState(() => {
-              return {
-                clip: res.data.clip
-              }
-            })
-          }
-        } else if (res.status === 204) {
-          this.setState(() => {
-            return {
-              clip: { key }
-            }
-          })
-        }
-      })
-      .catch((reason) => {
-        console.error('get call rejected', reason)
-      })
-  }
-
-  handleClipDelete = (clip) => {
-    axios.delete(`/api/${clip.key}`).then((res) => {
-      console.log('Deleted clip', res.data)
-      this.setState(() => {
-        return ({
-          clip: {
-            key: clip.key
-          }
-        })
-      })
-    }).catch((err) => {
-      console.log('Can\'t delete clip', err)
-      return err
+  componentDidMount () {
+    const clipKey = this.props.location.pathname.substr(1)
+    if (!clipKey) return
+    this.setState(() => {
+      return (
+        { clipKey,
+          staticPage: Object.keys(this.staticComponents).indexOf(clipKey) >= 0 }
+      )
     })
   }
 
-  handleClipSave = (text) => {
-    const clipToSave = this.state.clip
-    if (clipToSave && clipToSave.key && !clipToSave._id) { // new clip, never saved to the db
-      clipToSave.text = text
-      console.log('clipToSave', clipToSave)
-      axios.post(`/api/${clipToSave.key}`, clipToSave).then((res) => {
-        console.log('Saved new clip', res.data)
-        this.setState(() => {
-          return ({
-            clip: res.data.clip
-          })
-        })
-      }).catch((err) => {
-        console.log('Can\'t save new clip', err)
-      })
-    }
-  }
-  componentDidMount () {
-    const key = this.props.location.pathname.substr(1)
-    if (!key) return
-    console.log('componentDidMount')
-    this.fetchClip(key)
+  staticComponents = {
+    about: About,
+    help: Help,
+    privacy: Privacy
   }
   render () {
     return (
       <div>
         <Header />
-        {!this.state.clip &&
+        { Object.keys(this.staticComponents).map((comp) => {
+          return <Route path={'/' + comp} key={comp} component={this.staticComponents[comp]} />
+        })
+        }
+        {!this.state.clipKey &&
           <div
             className='alert alert-primary'
             role='alert'>
               Please navigate to an arbitrary url to create your clip (e.g. /abcdef)
           </div>
         }
-        {this.state.clip &&
+        {!this.state.staticPage && this.state.clipKey &&
           <Clip
-            clip={this.state.clip}
+            clipKey={this.state.clipKey}
             handleClipDelete={this.handleClipDelete}
             handleClipSave={this.handleClipSave}
           />}
+        <Footer />
       </div>
     )
   }

@@ -1,44 +1,72 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 
 export default class Clip extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      clip: props.clip,
-      text: ''
+      clip: {}
     }
-  }
-  componentDidMount () {
-    this.setState(() => {
-      return ({
-        text: this.props.clip.text
-      })
-    })
-  }
-  componentDidUpdate (prevProps, prevState) {
-    if (prevProps.clip !== this.props.clip) {
-      this.setState((prevState) => {
-        return (
-          { clip: this.props.clip,
-            text: this.props.clip.text
-          }
-        )
-      })
-    }
+    this.fetchClip(this.props.clipKey)
   }
   handleClipDelete = (e) => {
     e.preventDefault()
-    this.props.handleClipDelete(this.state.clip)
-    this.setState(() => {
-      return (
-        { text: '' }
-      )
+    const key = this.state.clip.key
+    axios.delete(`/api/${key}`).then((res) => {
+      console.log('Deleted clip', res.data)
+      this.setState(() => {
+        return ({
+          clip: { key }
+        })
+      })
+    }).catch((err) => {
+      console.log('Can\'t delete clip', err)
+      return err
     })
   }
   handleClipSave = (e) => {
     e.preventDefault()
-    this.props.handleClipSave(this.state.text)
+    const clipToSave = this.state.clip
+    if (!clipToSave._id) { // new clip, never saved to the db
+      console.log('clipToSave', clipToSave)
+      axios.post(`/api/${clipToSave.key}`, clipToSave).then((res) => {
+        console.log('Saved new clip', res.data)
+        this.setState(() => {
+          return ({
+            clip: res.data.clip
+          })
+        })
+      }).catch((err) => {
+        console.log('Can\'t save new clip', err)
+      })
+    }
   }
+
+  // from App
+  fetchClip = (key) => {
+    let clip = {}
+    axios.get(`/api/${key}`)
+      .then(res => {
+        if (res.status === 200) {
+          if (res.data && res.data.clip) {
+            clip = res.data.clip
+          }
+        } else if (res.status === 204) {
+          clip = { key } // does not exist so creating a stub
+        }
+        this.setState(() => {
+          return {
+            clip: clip
+          }
+        })
+      })
+      .catch((reason) => {
+        console.error('get call rejected', reason)
+      })
+  }
+
+  // /from App
+
   handleCopyToClipboard = (e) => {
     e.preventDefault()
     const elementToCopy = document.getElementById('clipText')
@@ -46,10 +74,13 @@ export default class Clip extends Component {
     document.execCommand('copy')
   }
   handleChange = (e) => {
+    console.log('handleChange called')
     e.persist()
-    this.setState(() => {
+    this.setState((prevState) => {
+      const clip = prevState.clip
+      clip.text = e.target.value
       return (
-        { text: e.target.value }
+        { clip }
       )
     })
   }
@@ -69,7 +100,7 @@ export default class Clip extends Component {
               className='form-control form-control-lg clip__textarea'
               onChange={this.handleChange}
               placeholder='Your clip text here'
-              value={this.state.text}
+              value={this.state.clip.text || ''}
             />
             <p className='small float-right'>
               {clip.createdAt && <span>created at: {clip.createdAt.toString()}</span>}
