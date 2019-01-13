@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import TextareaAutosize from 'react-autosize-textarea';
 import axios from 'axios'
 
 export default class Clip extends Component {
@@ -42,7 +43,6 @@ export default class Clip extends Component {
     }
   }
 
-  // from App
   fetchClip = (key) => {
     let clip = {}
     axios.get(`/api/${key}`)
@@ -87,7 +87,7 @@ export default class Clip extends Component {
   render () {
     const clip = this.state.clip
     return (
-      <div className='clip'>
+      <div className='container clip'>
         <h5>
           {!clip._id && <span className='badge badge-success clip__badge'>NEW CLIP</span>}
           {clip._id && <span className='badge badge-warning clip__badge'>EXISTING CLIP</span>}
@@ -95,8 +95,9 @@ export default class Clip extends Component {
         </h5>
         <form onSubmit={this.handleClipSave}>
           <div className='form-group'>
-            <textarea
+            <TextareaAutosize
               id='clipText'
+              rows={2}
               className='form-control form-control-lg clip__textarea'
               onChange={this.handleChange}
               placeholder='Your clip text here'
