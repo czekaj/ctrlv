@@ -102,6 +102,7 @@ export default class Clip extends Component {
             <TextArea
               id='clipText'
               minRows={2}
+              readOnly={!!this.state.clip._id}
               inputRef={tag => (this.textarea = tag)}
               className='form-control form-control-lg clip__textarea'
               onChange={this.handleChange}
