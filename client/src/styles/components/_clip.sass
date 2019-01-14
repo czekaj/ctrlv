@@ -6,10 +6,14 @@
 
 .clip__textarea
   font-family: monospace
-  font-size: $l-size
+  font-size: $m-size
   flex-grow: 1
   margin: 0 0 $s-size 0
   padding: $s-size
 
 .clip__badge
   margin-right: $s-size
+
+@media (min-width: 576px)
+  .clip__textarea
+    font-size: $l-size

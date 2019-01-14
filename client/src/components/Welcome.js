@@ -5,10 +5,13 @@ import Typed from 'typed.js'
 class Welcome extends Component {
   componentDidMount () {
     const options = {
-      strings: ['anything', 'you', 'can', 'easily', 'remember', 'but', 'no', 'spaces', 'or', 'special', 'characters', ':)', '...'],
+      strings: ['...', 'anything you will easily remember...', '...but no spaces or special characters ;)', '>'],
       attr: 'placeholder',
-      typeSpeed: 100,
-      backSpeed: 50
+      typeSpeed: 70,
+      backSpeed: 20,
+      onComplete: (self) => {
+        document.getElementById('new-clip-key').focus()
+      }
     }
     this.typed = new Typed(this.el, options)
     document.title = 'ctrlv.app'
@@ -33,12 +36,12 @@ class Welcome extends Component {
   render () {
     return (
       <div className='container welcome'>
-        <div className='lead'>Pick an url</div>
+        <div className='lead'>Pick your url</div>
         <div className='input-group input-group-lg welcome__input-group--xl'>
           <div className='input-group-prepend'>
             <span className='input-group-text' id='new-clip-site'>https://ctrlv.app/</span>
           </div>
-          <input type='text' className='form-control' id='new-clip-key' aria-describedby='basic-addon3' placeholder='anything' ref={(el) => { this.el = el }} onKeyDown={this.handleOnKeyDown} />
+          <input type='text' className='form-control' id='new-clip-key' aria-describedby='new-clip-key' placeholder='anything' ref={(el) => { this.el = el }} onKeyDown={this.handleOnKeyDown} />
           <div className='input-group-append'>
             <button onClick={this.handleSubmit} className='btn btn-outline-success' type='button' id='new-clip-button'>GO</button>
           </div>

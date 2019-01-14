@@ -1,11 +1,10 @@
 {
-  "short_name": "CtrlV",
-  "name": "CtrlV - single use internet clipboard",
+  "short_name": "ctrlv",
+  "name": "ctrlv.app - the cloud clipboard",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "favicon-24.png",
+      "type": "image/png"
     }
   ],
   "start_url": ".",
