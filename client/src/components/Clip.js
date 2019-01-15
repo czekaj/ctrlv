@@ -6,7 +6,8 @@ export default class Clip extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      clip: {}
+      clip: {},
+      error: undefined
     }
     this.fetchClip(props.match.params.clipKey)
   }
@@ -21,12 +22,19 @@ export default class Clip extends Component {
       console.log('Deleted clip', res.data)
       this.setState(() => {
         return ({
-          clip: { key }
+          clip: { key },
+          error: undefined
         })
       })
     }).catch((err) => {
+      if (err.response && err.response.data) {
+        this.setState(() => {
+          return ({
+            error: err.response.data
+          })
+        })
+      }
       console.log('Can\'t delete clip', err)
-      return err
     })
   }
   handleClipSave = (e) => {
@@ -38,10 +46,18 @@ export default class Clip extends Component {
         console.log('Saved new clip', res.data)
         this.setState(() => {
           return ({
-            clip: res.data.clip
+            clip: res.data.clip,
+            error: undefined
           })
         })
       }).catch((err) => {
+        if (err.response && err.response.data) {
+          this.setState(() => {
+            return ({
+              error: err.response.data
+            })
+          })
+        }
         console.log('Can\'t save new clip', err)
       })
     }
@@ -60,12 +76,20 @@ export default class Clip extends Component {
         }
         this.setState(() => {
           return {
-            clip: clip
+            clip: clip,
+            error: undefined
           }
         })
       })
-      .catch((reason) => {
-        console.error('get call rejected', reason)
+      .catch((err) => {
+        if (err.response && err.response.data) {
+          this.setState(() => {
+            return ({
+              error: err.response.data
+            })
+          })
+        }
+        console.log('Can\'t fetch clip', err)
       })
   }
 
@@ -92,6 +116,11 @@ export default class Clip extends Component {
     const clip = this.state.clip
     return (
       <div className='container clip'>
+        {this.state.error &&
+          <div className='alert alert-danger' role='alert' >
+            {this.state.error}
+          </div>
+        }
         <h5>
           {!clip._id && <span className='badge badge-success clip__badge'>NEW CLIP</span>}
           {clip._id && <span className='badge badge-warning clip__badge'>EXISTING CLIP</span>}
