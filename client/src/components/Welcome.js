@@ -23,7 +23,7 @@ class Welcome extends Component {
 
   handleOnKeyDown = (e) => {
     if (e.key === 'Enter') {
-      this.handleSubmit()
+      this.handleSubmit(e)
     }
   }
 
