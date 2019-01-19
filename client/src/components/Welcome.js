@@ -27,7 +27,8 @@ class Welcome extends Component {
     }
   }
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault()
     const newClipKey = document.getElementById('new-clip-key').value.toLowerCase()
     this.props.history.push('/' + newClipKey)
     window.location.reload()
