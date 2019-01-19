@@ -36,10 +36,10 @@ class Welcome extends Component {
   render () {
     return (
       <div className='container welcome'>
-        <div className='lead'>Pick your url</div>
+        <div className='lead'>Pick a link</div>
         <div className='input-group input-group-lg welcome__input-group--xl'>
           <div className='input-group-prepend'>
-            <span className='input-group-text' id='new-clip-site'>https://ctrlv.app/</span>
+            <span className='input-group-text' id='new-clip-site'>ctrlv.app/</span>
           </div>
           <input type='text' className='form-control' id='new-clip-key' aria-describedby='new-clip-key' placeholder='anything' ref={(el) => { this.el = el }} onKeyDown={this.handleOnKeyDown} />
           <div className='input-group-append'>

@@ -9,11 +9,25 @@
   max-height: 64px
   margin-bottom: $s-size
 
+.header__title
+  margin: auto
+
 .header__title a
-  font-size: $xl-size
+  font-size: $l-size
   font-weight: 200
   letter-spacing: 0.3rem
 
 .header__lead
-  margin-top: auto
-  margin-bottom: $t-size
+  margin: auto
+  font-size: $m-size
+
+@media (min-width: 576px)
+  .header__title
+    margin: 0
+  .header__title a
+    font-size: $xl-size  
+  .header__container
+    max-width: calc(50rem + 2px)
+  .header__lead
+    margin-bottom: $t-size
+    margin-right: $t-size
