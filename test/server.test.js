@@ -1,10 +1,9 @@
 process.env.NODE_ENV = 'test'
-const { app, welcomeMessage, reservedUrls, server, db } = require('../server')
+process.env.TEST_SUITE = 'server-test'
+
+const { app, reservedUrls } = require('../app')
 const { Clip } = require('../models/clip')
 const request = require('supertest')
-const chai = require('chai')
-chai.use(require('chai-date-string'))
-const expect = chai.expect
 
 const sampleClips = [{
   key: 'first',
@@ -21,25 +20,12 @@ const sampleClips = [{
 }
 ]
 
-before((done) => {
+beforeAll((done) => {
+  console.log('Inserting sample data')
   Clip.insertMany(sampleClips).then(() => done(), (e) => { console.error(e) })
-})
-
-after((done) => {
-  db.mongoose.connection.close()
-  db.mongoServer.stop()
-  server.close() // shutdown the express server
   done()
 })
 
-describe('GET /', () => {
-  it('should display welcome message', (done) => {
-    request(app)
-      .get('/')
-      .expect(200, welcomeMessage)
-      .end(done)
-  })
-})
 describe('GET /favicon.ico', () => {
   it('should not create or retrieve any clips', (done) => {
     request(app)
@@ -48,14 +34,14 @@ describe('GET /favicon.ico', () => {
       .end(done)
   })
 })
+
 sampleClips.forEach((sampleClip) => {
   describe(`GET /api/${sampleClip.key}`, () => {
     it('should display an existing clip', (done) => {
       request(app)
         .get(`/api/${sampleClip.key}`).then((res) => {
-          expect(res.status).to.equal(200)
-          expect(res.body.clip.text).to.equal(sampleClip.text)
-          expect(res.body.clip.createdAt).to.be.a.dateString()
+          expect(res.status).toBe(200)
+          expect(res.body.clip.text).toBe(sampleClip.text)
           done()
         }, (err) => {
           console.error(err)
@@ -64,9 +50,11 @@ sampleClips.forEach((sampleClip) => {
           console.error(e)
           done(e)
         })
+      done()
     })
   })
 })
+
 reservedUrls.forEach((url) => {
   describe(`GET /${url}`, () => {
     it('should not create or retrieve any clips', (done) => {
@@ -82,8 +70,8 @@ describe('GET /api/[random clip]}', () => {
   it('should indicate a clip does not exist yet', (done) => {
     request(app)
       .get(`/api/${randomClip}`).then((res) => {
-        expect(res.status).to.equal(204) // 204 No Content
-        expect(res.body).to.be.empty
+        expect(res.status).toBe(204) // 204 No Content
+        expect(res.body).toEqual({})
         done()
       }, (err) => {
         console.error(err)
@@ -103,9 +91,9 @@ describe('POST /api/[random clip]}', () => {
         text: `Hello ${randomClip}`
       }).then((res) => {
         console.log(res.body.clip)
-        expect(res.status).to.equal(201)
-        expect(res.body.clip.key).to.be.equal(randomClip)
-        expect(res.body.clip.text).to.be.equal(`Hello ${randomClip}`)
+        expect(res.status).toBe(201)
+        expect(res.body.clip.key).toBe(randomClip)
+        expect(res.body.clip.text).toBe(`Hello ${randomClip}`)
         done()
       }, (err) => {
         console.error(err)
@@ -122,7 +110,7 @@ describe('POST /api/[random clip]}', () => {
       .send({
         text: `Hello ${randomClip}`
       }).then((res) => {
-        expect(res.status).to.equal(400)
+        expect(res.status).toBe(400)
         done()
       }, (err) => {
         console.error(err)
@@ -137,7 +125,7 @@ describe('POST /api/[random clip]}', () => {
       .delete(`/api/${randomClip}`)
       .type('form')
       .send().then((res) => {
-        expect(res.status).to.equal(200)
+        expect(res.status).toBe(200)
         done()
       }, (err) => {
         console.error(err)
