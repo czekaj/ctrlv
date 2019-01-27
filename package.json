@@ -4,6 +4,7 @@
   "description": "Your cloud clipboard",
   "main": "server.js",
   "scripts": {
+    "postinstall": "cd client && npm install",
     "nyc": "nyc report",
     "start": "node server.js",
     "start-watch": "nodemon server.js",
