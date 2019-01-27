@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter, Route, Switch } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import configureStore from './store/configureStore'
 import Clip from './components/Clip'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -10,10 +12,12 @@ import Privacy from './components/Privacy'
 import Page404 from './components/Page404'
 import './App.sass'
 
+const store = configureStore()
+
 class App extends Component {
   render () {
     return (
-      <div>
+      <Provider store={store}>
         <Header />
         <Switch>
           <Route path='/' component={Welcome} exact />
@@ -24,7 +28,7 @@ class App extends Component {
           <Route component={Page404} />
         </Switch>
         <Footer />
-      </div>
+      </Provider>
     )
   }
 }
