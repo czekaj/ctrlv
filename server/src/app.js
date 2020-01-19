@@ -12,7 +12,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: true
 }))
-if (env.name === 'dev') {
+if (env.name.startsWith('dev')) {
   var morgan = require('morgan')
   app.use(morgan('dev'))
 }
