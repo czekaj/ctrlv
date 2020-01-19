@@ -8,7 +8,7 @@
     "nyc": "nyc report",
     "start": "node",
     "start-watch": "nodemon",
-    "jest": "jest --detectOpenHandles",
+    "test": "CI=true jest --detectOpenHandles",
     "test_disabled": "concurrently \"npm run jest\" \"cd client && npm test\"",
     "test-watch": "nodemon --exec npm test",
     "dev_disabled": "concurrently \"npm run start-watch\" \"cd client && npm run start\"",

@@ -8,7 +8,7 @@ before_script:
   - docker-compose up -d --build
 
 script:
-  - docker-compose run server npm run jest
+  - docker-compose run server npm test
   - docker-compose run client npm test
 
 after_script:
