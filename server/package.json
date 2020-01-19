@@ -45,8 +45,8 @@
     ],
     "testEnvironment": "node",
     "verbose": false,
-    "setupFilesAfterEnv": [
-      "./test/jest.setup.js"
+    "setupFilesAfterEnv": [ 
+      "./src/test/jest.setup.js"
     ]
   },
   "nyc": {

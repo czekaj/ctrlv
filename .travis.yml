@@ -1,3 +1,15 @@
 language: node_js
 node_js:
   - "8"
+services:
+  - docker
+
+before_script:
+  - docker-compose up -d --build
+
+script:
+  - docker-compose run server npm run jest
+  - docker-compose run client npm test
+
+after_script:
+  - docker-compose down
